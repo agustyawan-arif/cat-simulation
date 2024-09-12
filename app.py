@@ -5,7 +5,7 @@ import streamlit as st
 import pandas as pd
 
 # make streamlit auto width
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Computer Assisted Test (CAT) Simulation")
 
 def generate_unique_data(numbers, n_samples, n_digits):
     # Menghasilkan semua kombinasi angka tanpa pengulangan dengan urutan berbeda
@@ -78,9 +78,12 @@ with panels[0]:
         numbers = [number_1, number_2, number_3, number_4, number_5]
         n_samples = 35
         n_digits = 4
-        st.session_state.result, st.session_state.missing_numbers = generate_unique_data(numbers, n_samples, n_digits)
-        st.session_state.start_time = time.time()  # Start the timer
-        st.session_state.submitted = False  # Reset submitted state when generating new data
+        try:
+            st.session_state.result, st.session_state.missing_numbers = generate_unique_data(numbers, n_samples, n_digits)
+            st.session_state.start_time = time.time()  # Start the timer
+            st.session_state.submitted = False  # Reset submitted state when generating new data
+        except:
+            st.warning("Invalid input. Make sure the input is unique. Example: [1, 2, 3, 4, 5]")
 
     # Display the DataFrame if the result is available
     if st.session_state.result is not None:
@@ -127,3 +130,6 @@ with panels[0]:
                 details_2[0].success(f"True: {true_percentage:.2f}%")
                 details_2[1].error(f"False: {false_percentage:.2f}%")
                 # details_2.info(f"True: {true_percentage:.2f}%, False: {false_percentage:.2f}%")
+
+st.markdown("---")
+st.markdown("Created by: Arif Agustyawan")
